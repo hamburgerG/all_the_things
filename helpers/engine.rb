@@ -5,8 +5,12 @@ module EngineHelper
     items = []
     page.css("td[class='title'] a").each do |thing|
       item = { :title => thing.text, :url => thing["href"] }
-      items << item
+      items << item unless item[:title] == "more"
     end
-    return items
+    
+    HNListing.new({
+      :time_gotten => Time.now,
+      :posts => items
+    })
   end
 end
