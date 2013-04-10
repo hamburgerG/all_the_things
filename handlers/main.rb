@@ -1,4 +1,4 @@
 get '/' do
-  @items = hn_items
+  @items = get_hn
   erb :index
 end

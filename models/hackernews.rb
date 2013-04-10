@@ -1,5 +1,5 @@
-class HNListing
+class HNSnap
   include MongoMapper::Document
-  key :time_gotten, Time
-  key :posts, Array
+  key :time_snapped, Time
+  key :items, Array
 end
