@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/mongomapper'
 require 'nokogiri'
 require 'open-uri'
+require 'pry'
 
 Dir[File.dirname(__FILE__) + '/extensions/*.rb'].each {|file| require file}
 Dir[File.dirname(__FILE__) + '/helpers/*.rb'].each {|file| require file}                 

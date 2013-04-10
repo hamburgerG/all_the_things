@@ -2,29 +2,36 @@ module EngineHelper
   def hn_items
     page = Nokogiri::HTML(open("https://news.ycombinator.com/news"))
 
-    items = []
+    @hn = []
 
     list = page.xpath("/html/body/center/table/tr[3]/td/table").children
 
-    list.each do |thing|
-      a = thing.css("td[class='title']")
-      b = thing.css("td[class='subtext']")
-      item = { :title => a.text,
-               :url => a["href"],
-               :score => }
+    for i in 0...29
+      link = list[i * 3].css("td[class='title'] a")
+      info = list[(i * 3) + 1].css("td[class='subtext']").children
 
+      title = link.text
+      url = link.attribute("href").to_s      
+      score = info[0].text
+      comments_page = "http://news.ycombinator.com/" + info[4].attribute("href").to_s
+      # binding.pry
+      numcomments = info.children[2].text
 
-    page.css("td[class='title'] a").each do |top|
-      item = { :title => top.text, :url => top["href"] }
-      items << item unless item[:title] == "more"
+      item = { 
+        :title => title,
+        :url => url,
+        :score => score,
+        :comments_page => comments_page,
+        :numcomments => numcomments
+      }
+
+      @hn << item
     end
-
-    page.css("td[class='subtext']").each do |bottom|
-      item[:score] = bottom
 
     HNListing.new({
       :time_gotten => Time.now,
-      :posts => items
+      :posts => @hn
     })
+    return @hn
   end
 end
